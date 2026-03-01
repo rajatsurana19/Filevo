@@ -72,6 +72,68 @@ class SocketService{
         return false
     }
 
-    
+    on(event,cb){
+        if(!this.listeners[event]) this.listeners[event] = []
+        this.listeners[event].push(cb)
+    }
+
+    off(event,cb){
+        if(!this.listeners[event]) return
+        this.listeners[event] = this.listeners[event].filter(fn => fn != cb)
+    }
+
+    _emit(event,data){
+        this.listeners[event]?.forEach(cb => cb(data))
+    }
+
+    async uploadFile(file,targetPeerId,{onProgress,onError} = { } ){
+        if(!this.connected){
+            onError?.('Not Connected to relay')
+            return null
+        }
+        const fileId = 'f_' + Math.random().toString(36).substring(2,10)
+        const totalChunks = Math.ceil(file.size/CHUNK_SIZE)
+        
+        this.send({
+            type : 'file_manifest',
+            target : targetPeerId,
+            fileId,
+            fileName: file.name,
+            fileSize : file.size,
+            totalChunks,
+            mimeType : file.type || 'application/octet-stream'
+        })
+
+        for(let i=0;i<totalChunks;i++){
+            const start = i * CHUNK_SIZE
+            const end = Math.min(start+CHUNK_SIZE,file.size)
+            const slice = file.slice(start,end)
+            const buffer = await slice.arrayBuffer()
+
+            const bytes =   new Uint8Array(buffer)
+            let binary = ''
+            for(let b=0;b<binary.byteLength;b++) binary+= String.fromCharCode(bytes[b])
+            const base64 = btoa(binary)
+
+            this.send({
+                type: 'file_chunk',
+                target: targetPeerId,
+                fileId,
+                chunkIndex : i,
+                totalChunks,
+                data : base64
+            })
+
+            onProgress?.(Math.round(((i+1)/totalChunks)*100))
+
+            await new Promise(r => setTimeout(r,5))
+        }
+
+        this.send({ type: 'file_complete', target: targetPeerId, fileId })
+
+        return fileId
+    }
 
 }
+
+export const socketService = new SocketService()
