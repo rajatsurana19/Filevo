@@ -188,3 +188,136 @@ export default function UploadBox({connected}) {
     </div>
   )
 }
+
+const card = {
+  background: '#111827',
+  border: '1px solid #1f2937',
+  borderRadius: '20px',
+  padding: '28px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0',
+}
+
+const cardHeader = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '14px',
+  marginBottom: '22px',
+}
+
+const iconBadge = (bg,color) => ({
+  width:        '38px',
+  height:       '38px',
+  background:   bg,
+  border:       `1px solid ${color}33`,
+  borderRadius: '10px',
+  display:      'flex',
+  alignItems:   'center',
+  justifyContent:'center',
+  flexShrink:   0,
+})
+
+const cardTitle = {
+  fontFamily: "'Sybe',sans-serif",
+  fontWeight: 700,
+  fontSize: '16px',
+  color: '#f9fafb',
+  lineHeight: 1.2,
+}
+
+const cardSub = {
+  fontFamily: "'Space Mono', monospace",
+  fontSize:   '10px',
+  color:      '#4b5563',
+  marginTop:  '3px',
+  letterSpacing: '0.03em',
+}
+
+const dropZone = (dragging, hasFile) => ({
+  border:        `2px dashed ${dragging ? '#7c3aed' : hasFile ? '#374151' : '#1f2937'}`,
+  borderRadius:  '14px',
+  padding:       hasFile ? '16px 20px' : '36px 20px',
+  cursor:        hasFile ? 'default' : 'pointer',
+  background:    dragging ? 'rgba(124,58,237,0.06)' : hasFile ? 'rgba(255,255,255,0.02)' : 'transparent',
+  transition:    'all 0.2s ease',
+  display:       'flex',
+  alignItems:    'center',
+  justifyContent:'center',
+  minHeight:     hasFile ? 'auto' : '140px',
+})
+
+const clearBtn = {
+  background:   'rgba(239,68,68,0.1)',
+  border:       '1px solid rgba(239,68,68,0.2)',
+  borderRadius: '6px',
+  color:        '#ef4444',
+  width:        '28px',
+  height:       '28px',
+  cursor:       'pointer',
+  fontSize:     '12px',
+  flexShrink:   0,
+  display:      'flex',
+  alignItems:   'center',
+  justifyContent:'center',
+}
+
+
+const monoText = {
+  fontFamily: "'Space Mono', monospace",
+}
+
+const fieldLabel = {
+  display:       'block',
+  fontFamily:    "'Space Mono', monospace",
+  fontSize:      '10px',
+  color:         '#4b5563',
+  letterSpacing: '0.08em',
+  marginBottom:  '8px',
+}
+
+const textInput = {
+  width:        '100%',
+  background:   '#0f172a',
+  border:       '1px solid #1f2937',
+  borderRadius: '10px',
+  padding:      '11px 14px',
+  color:        '#e2e8f0',
+  fontFamily:   "'Space Mono', monospace",
+  fontSize:     '12px',
+  outline:      'none',
+  boxSizing:    'border-box',
+  transition:   'border-color 0.15s',
+}
+
+const alert = (bg, color, dark) => ({
+  marginTop:    '14px',
+  display:      'flex',
+  alignItems:   'flex-start',
+  gap:          '10px',
+  padding:      '12px 14px',
+  background:   bg,
+  border:       `1px solid ${color}33`,
+  borderRadius: '10px',
+  color,
+  fontFamily:   "'Space Mono', monospace",
+  fontSize:     '11px',
+  lineHeight:   1.6,
+})
+
+const sendBtn = (disabled, loading) => ({
+  marginTop:    '18px',
+  width:        '100%',
+  padding:      '14px',
+  background:   disabled ? '#1f2937' : loading ? '#5b21b6' : '#7c3aed',
+  color:        disabled ? '#374151' : '#fff',
+  border:       'none',
+  borderRadius: '12px',
+  fontFamily:   "'Syne', sans-serif",
+  fontWeight:   700,
+  fontSize:     '14px',
+  letterSpacing:'0.04em',
+  cursor:       disabled ? 'not-allowed' : 'pointer',
+  transition:   'all 0.2s',
+  boxShadow:    disabled ? 'none' : '0 4px 20px rgba(124,58,237,0.3)',
+})
