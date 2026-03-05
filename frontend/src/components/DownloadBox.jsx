@@ -42,6 +42,62 @@ export default function DownloadBox(){
         
         }
 
+        const onChunk = ({ fileId,chunkIndex,totalChunks,data: base64}) => {
+            const store = dataRef.current[fileId]
+            if(!store) return
+
+            try{
+                const binary = atob(base64)
+                const bytes = new Uint8Array(binary.length)
+
+                for(let i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i)
+
+                store.chunks[chunkIndex] = bytes
+                store.received++
+            }catch(err){
+                console.error('[Filevo] Failed to decode chunk',chunkIndex,err)
+                return
+            }
+            const progress = Math.round((store.received/totalChunks)*100)
+            updateTransfer(fileId,{received: store.received,progress})
+        }
+
+        const onComplete = ({ fileId}) => {
+            const store = dataRef.current[fileId]
+            if (!store) return
+
+            const missing = store.chunks.filter(c => c === null).length
+        if (missing > 0) {
+        console.error(`[Filevo] ${missing} chunks missing for ${fileId}`)
+        updateTransfer(fileId, { status: 'error', errorMsg: `${missing} chunks missing` })
+        return
+            }
+
+
+        const blob    = new Blob(store.chunks, { type: store.mimeType })
+         const url     = URL.createObjectURL(blob)
+        const a       = document.createElement('a')
+
+
+      setTransfers(prev => {
+        const t = prev[fileId]
+        if (t) {
+          a.download = t.fileName || 'filevo_file'
+          a.href     = url
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+          setTimeout(() => URL.revokeObjectURL(url), 5000)
+        }
+        return {
+          ...prev,
+          [fileId]: { ...t, progress: 100, status: 'done', doneAt: Date.now() }
+        }
+      })
+
+      delete dataRef.current[fileId]
+
+        }
         
     })
 }
