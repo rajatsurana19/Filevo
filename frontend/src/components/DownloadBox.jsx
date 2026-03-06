@@ -98,6 +98,66 @@ export default function DownloadBox(){
       delete dataRef.current[fileId]
 
         }
+
+        socketService.on('file_manifest',onManifest)
+        socketService.on('file_chunk',onChunk)
+        socketService.on('file_complete', onComplete)
+
+        return() => {
+           socketService.on('file_manifest',onManifest)
+           socketService.on('file_chunk',onChunk)
+           socketService.on('file_complete', onComplete) 
+        }
         
-    })
+    },[updateTransfer])
+
+    const transferList = Object.entries(transfers)
+
+    return (
+    <div style={card}>
+      <div style={cardHeader}>
+        <div style={iconBadge}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <div>
+          <div style={cardTitle}>Receive Files</div>
+          <div style={cardSub}>Incoming transfers appear here automatically</div>
+        </div>
+
+        {transferList.length > 0 && (
+          <div style={countBadge(transferList.filter(([,t]) => t.status === 'receiving').length)}>
+            {transferList.filter(([,t]) => t.status === 'receiving').length > 0
+              ? `${transferList.filter(([,t]) => t.status === 'receiving').length} active`
+              : `${transferList.length} done`}
+          </div>
+        )}
+      </div>
+
+
+      {transferList.length === 0 && (
+        <div style={emptyState}>
+          <div style={{ fontSize: '44px', marginBottom: '14px', opacity: 0.2 }}>📭</div>
+          <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 600, color: '#374151', fontSize: '15px', marginBottom: '8px' }}>
+            No incoming files yet
+          </div>
+          <div style={{ fontFamily: "'Space Mono', monospace", color: '#1f2937', fontSize: '10px', lineHeight: 1.8, textAlign: 'center' }}>
+            Share your Peer ID with the sender.<br />
+            Files will appear here and auto-download.
+          </div>
+        </div>
+      )}
+
+      {transferList.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {transferList.map(([fileId, t]) => (
+            <TransferRow key={fileId} transfer={t} />
+          ))}
+        </div>
+      )}
+    </div>
+    )
 }
