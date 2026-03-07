@@ -161,3 +161,136 @@ export default function DownloadBox(){
     </div>
     )
 }
+
+function TransferRow({transfer:t}){
+  const isDone = t.status === 'done'
+  const isError = t.status === 'error'
+  const isReceiving = t.status === 'receiving'
+
+  const elapsed = t.doneAt && t.startedAt ? ((t.doneAt - t.startedAt)/1000).toFixed(1)+'s':null
+
+  return(
+    <div style={transferCard(isDone, isError)}>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontFamily:   "'Syne', sans-serif",
+            fontWeight:   700,
+            color:        '#f1f5f9',
+            fontSize:     '14px',
+            overflow:     'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace:   'nowrap',
+            maxWidth:     '200px',
+          }}>
+            {t.fileName || 'Unknown file'}
+          </div>
+          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#4b5563', marginTop: '3px' }}>
+            {formatBytes(t.fileSize)}
+            {elapsed && <span style={{ marginLeft: '8px', color: '#10b981' }}>· {elapsed}</span>}
+          </div>
+        </div>
+
+        <div style={statusBadge(isDone, isError, isReceiving)}>
+          {isDone ? '✓ SAVED' : isError ? '✕ ERROR' : '⬇ RECV'}
+        </div>
+      </div>
+
+
+      <ProgressBar
+        progress={t.progress ?? 0}
+        label={isError ? t.errorMsg : `${t.received ?? 0} / ${t.totalChunks ?? '?'} chunks`}
+        sublabel={isDone ? '100%' : undefined}
+        color={isDone ? '#10b981' : isError ? '#ef4444' : '#06b6d4'}
+      />
+    </div>    
+  )
+}
+
+const card = {
+  background:   '#111827',
+  border:       '1px solid #1f2937',
+  borderRadius: '20px',
+  padding:      '28px',
+  minHeight:    '340px',
+  display:      'flex',
+  flexDirection:'column',
+}
+
+const cardHeader = {
+  display:      'flex',
+  alignItems:   'center',
+  gap:          '14px',
+  marginBottom: '22px',
+}
+
+const iconBadge = {
+  width:        '38px',
+  height:       '38px',
+  background:   'rgba(6,182,212,0.1)',
+  border:       '1px solid rgba(6,182,212,0.2)',
+  borderRadius: '10px',
+  display:      'flex',
+  alignItems:   'center',
+  justifyContent:'center',
+  flexShrink:   0,
+}
+
+const cardTitle = {
+  fontFamily: "'Syne', sans-serif",
+  fontWeight: 700,
+  fontSize:   '16px',
+  color:      '#f9fafb',
+  lineHeight: 1.2,
+}
+
+const cardSub = {
+  fontFamily: "'Space Mono', monospace",
+  fontSize:   '10px',
+  color:      '#4b5563',
+  marginTop:  '3px',
+  letterSpacing: '0.03em',
+}
+
+const countBadge = (active) => ({
+  marginLeft:   'auto',
+  padding:      '4px 10px',
+  background:   active ? 'rgba(6,182,212,0.12)' : 'rgba(16,185,129,0.1)',
+  border:       `1px solid ${active ? 'rgba(6,182,212,0.3)' : 'rgba(16,185,129,0.25)'}`,
+  borderRadius: '20px',
+  fontFamily:   "'Space Mono', monospace",
+  fontSize:     '10px',
+  color:        active ? '#06b6d4' : '#10b981',
+  whiteSpace:   'nowrap',
+})
+
+const emptyState = {
+  flex:           1,
+  display:        'flex',
+  flexDirection:  'column',
+  alignItems:     'center',
+  justifyContent: 'center',
+  padding:        '20px 0 10px',
+}
+
+const transferCard = (done, error) => ({
+  background:   done ? 'rgba(16,185,129,0.05)' : error ? 'rgba(239,68,68,0.05)' : '#0f172a',
+  border:       `1px solid ${done ? 'rgba(16,185,129,0.15)' : error ? 'rgba(239,68,68,0.15)' : '#1e293b'}`,
+  borderRadius: '12px',
+  padding:      '16px',
+})
+
+const statusBadge = (done, error, receiving) => ({
+  padding:      '3px 9px',
+  borderRadius: '20px',
+  fontFamily:   "'Space Mono', monospace",
+  fontSize:     '9px',
+  fontWeight:   700,
+  letterSpacing:'0.08em',
+  flexShrink:   0,
+  ...(done    ? { background: 'rgba(16,185,129,0.12)', color: '#10b981', border: '1px solid rgba(16,185,129,0.25)' } : {}),
+  ...(error   ? { background: 'rgba(239,68,68,0.12)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.25)' }  : {}),
+  ...(receiving && !done && !error
+              ? { background: 'rgba(6,182,212,0.12)', color: '#06b6d4', border: '1px solid rgba(6,182,212,0.25)' }  : {}),
+})
