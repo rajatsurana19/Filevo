@@ -50,7 +50,6 @@ async def root():
 
 app.get("/peers",tags=["debug"])
 async def list_peers():
-    """Returns all currently connected peers. Useful during development."""
     return {
         "count": peer_manager.count(),
         "peers": peer_manager.list_peers(),
