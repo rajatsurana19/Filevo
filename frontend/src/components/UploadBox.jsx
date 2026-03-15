@@ -1,5 +1,5 @@
 import { useState,useRef } from "react";
-import {socketService } from './services/socket'
+import {socketService } from '../services/socket'
 import ProgressBar from './ProgressBar'
 
 const formatBytes = (b) => {
