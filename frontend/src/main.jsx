@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom/client'
 import App from './App'
 
-const style = document.getElementBy('style')
+const style = document.createElement('style')
 style.textContent = `
  *,*::before, *::after {
     box-sizing: border-box;
