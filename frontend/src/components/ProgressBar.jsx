@@ -3,10 +3,10 @@ export default function ProgressBar({ progress = 0, label, sublabel, color = '#7
     <div style={{ width: '100%' }}>
       {(label || sublabel) && (
         <div style={{
-          display:        'flex',
+          display: 'flex',
           justifyContent: 'space-between',
-          alignItems:     'baseline',
-          marginBottom:   '6px',
+          alignItems: 'baseline',
+          marginBottom: '6px',
         }}>
           <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#9ca3af' }}>
             {label}
@@ -17,22 +17,20 @@ export default function ProgressBar({ progress = 0, label, sublabel, color = '#7
         </div>
       )}
 
-
       <div style={{
-        width:        '100%',
-        height:       '6px',
-        background:   '#1f2937',
+        width: '100%',
+        height: '6px',
+        background: '#1f2937',
         borderRadius: '999px',
-        overflow:     'hidden',
+        overflow: 'hidden',
       }}>
- 
         <div style={{
-          width:      `${Math.min(progress, 100)}%`,
-          height:     '100%',
+          width: `${Math.min(progress, 100)}%`,
+          height: '100%',
           background: `linear-gradient(90deg, ${color}99, ${color})`,
           borderRadius: '999px',
           transition: 'width 0.25s ease',
-          boxShadow:  `0 0 10px ${color}55`,
+          boxShadow: `0 0 10px ${color}55`,
         }} />
       </div>
     </div>

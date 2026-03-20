@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI,WebSocket
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
 from server.peer_manager import peer_manager
@@ -12,7 +12,7 @@ from server.relay import handle_peer
 
 load_dotenv()
 
-LOG_LEVEL = os.getenv("LOG_LEVEL","info").upper()
+LOG_LEVEL = os.getenv("LOG_LEVEL", "info").upper()
 logging.basicConfig(
     level=LOG_LEVEL,
     format="%(asctime)s  %(levelname)-8s  %(name)s — %(message)s",
@@ -20,40 +20,45 @@ logging.basicConfig(
 )
 logger = logging.getLogger("filevo")
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("🔗 Filevo relay server starting…")
     yield
     logger.info("🛑 Filevo relay server shutting down")
 
+
 app = FastAPI(
     title="Filevo Relay",
-    description="P2P file transfer relay - chunks travel through here",
+    description="P2P file transfer relay — chunks travel through here",
     version="1.0.0",
     lifespan=lifespan,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["*"],
-    allow_methods = ["*"],
-    allow_headers = ["*"],
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-@app.get("/",tags=["health"])
+
+@app.get("/", tags=["health"])
 async def root():
-    return{
-        "status" : "ok",
-        "service" : "Filevo Relay",
-        "peers" : peer_manager.count(),
+    return {
+        "status": "ok",
+        "service": "Filevo Relay",
+        "peers": peer_manager.count(),
     }
 
-app.get("/peers",tags=["debug"])
+
+@app.get("/peers", tags=["debug"])
 async def list_peers():
     return {
         "count": peer_manager.count(),
         "peers": peer_manager.list_peers(),
     }
+
 
 @app.websocket("/ws/{peer_id}")
 async def websocket_endpoint(ws: WebSocket, peer_id: str):

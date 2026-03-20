@@ -46,7 +46,7 @@ export default function App() {
       <nav style={nav}>
         <div style={logo}>
           <div style={logoIcon}>
-            <FilevoIcon />
+            <FvoIcon />
           </div>
           <span style={logoName}>Filevo</span>
         </div>
@@ -165,19 +165,22 @@ export default function App() {
 
       <footer style={footer}>
         <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#1f2937' }}>
-          Filevo · RELAY-BASED · NO DIRECT CONNECTION · Apache LICENSE
+          FILEVO · RELAY-BASED · NO DIRECT CONNECTION · APACHE 2.0 LICENSE
         </span>
       </footer>
     </div>
   )
 }
 
-function FilevoIcon() {
+function FvoIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round">
-      <circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/>
-      <line x1="12" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="19" y2="17"/>
-      <line x1="7" y1="19" x2="17" y2="19"/>
+      <circle cx="12" cy="5" r="2" />
+      <circle cx="5" cy="19" r="2" />
+      <circle cx="19" cy="19" r="2" />
+      <line x1="12" y1="7" x2="5" y2="17" />
+      <line x1="12" y1="7" x2="19" y2="17" />
+      <line x1="7" y1="19" x2="17" y2="19" />
     </svg>
   )
 }
@@ -185,7 +188,8 @@ function FilevoIcon() {
 function CopyIcon() {
   return (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+      <rect x="9" y="9" width="13" height="13" rx="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
     </svg>
   )
 }
