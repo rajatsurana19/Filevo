@@ -115,8 +115,8 @@ export default function App() {
                 {errorMsg}
               </div>
               <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#4b5563', marginBottom: '20px', lineHeight: 1.8 }}>
-                Make sure your relay server is running <br />
-                <<br />
+                Make sure your Python relay server is running at<br />
+                <code style={{ color: '#7c3aed' }}>ws://localhost:8000/ws</code><br />
                 then try again.
               </div>
               <button onClick={handleRetry} style={retryBtn}>
@@ -125,6 +125,8 @@ export default function App() {
             </div>
           </div>
         )}
+
+             
 
         {step === 'connected' && (
           <div style={dashboard}>
