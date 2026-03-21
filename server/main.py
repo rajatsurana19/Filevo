@@ -43,13 +43,18 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["health"])
+@app.api_route("/", methods=["GET", "HEAD"], tags=["health"])
 async def root():
     return {
         "status": "ok",
         "service": "Filevo Relay",
         "peers": peer_manager.count(),
     }
+
+
+@app.api_route("/health", methods=["GET", "HEAD"])
+async def health():
+    return {"status": "ok"}
 
 
 @app.get("/peers", tags=["debug"])
