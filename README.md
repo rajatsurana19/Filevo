@@ -2,6 +2,10 @@
 
 > Send files to anyone, anywhere. No signup. No cloud. No limits.
 
+[![Try Filevo](https://img.shields.io/badge/Try-Filevo-000?style=for-the-badge&logo=vercel)](https://filevo.vercel.app)
+
+![Filevo Screenshot](./assets/screenshot.png)
+
 Filevo is a relay-based peer-to-peer file transfer app. Files are split into chunks in the browser, streamed through a lightweight Python relay server, and auto-downloaded on the receiver's end. Nothing is ever stored on the server.
 
 ---
