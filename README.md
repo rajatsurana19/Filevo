@@ -52,7 +52,7 @@ App runs at `http://localhost:3000`
 2. Both tabs click **Connect** to get a Peer ID
 3. **Tab 1 (Receiver)** — copy the Peer ID
 4. **Tab 2 (Sender)** — drop a file, paste the Peer ID, click **Send**
-5. File auto-downloads in Tab 1 ✅
+5. File auto-downloads in Tab 1 
 
 ---
 
