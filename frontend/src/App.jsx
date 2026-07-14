@@ -126,6 +126,8 @@ export default function App() {
           </div>
         )}
 
+             
+
         {step === 'connected' && (
           <div style={dashboard}>
             <div style={peerCard}>
