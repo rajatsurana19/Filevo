@@ -123,6 +123,13 @@ python -m client send myfile.zip filevo_abc123
 
 ---
 
+## Features 
+-> peer to peer file transfer ( no cloud storage ).
+-> Chunk based file streaming for reliability .
+-> Simple browser based interface .
+-> Real time transfer using web sockets .
+
+
 ## License
 
 Licensed under the **Apache License 2.0** — free to use, modify and distribute with attribution. See [LICENSE](LICENSE) for details.
